@@ -1,37 +1,210 @@
-<form action="action_page.php">
-  <div class="container">
-    <h1>New user Register for DevOps Learning</h1>
-    <p>Please fill in this form to create an account.</p>
-    <hr>
-     
-    <label for="Name"><b>Enter Name</b></label>
-    <input type="text" placeholder="Enter Full Name" name="Name" id="Name" required>
-    <br>
-    
-    <label for="mobile"><b>Enter mobile</b></label>
-    <input type="text" placeholder="Enter moible number" name="mobile" id="mobile" required>
-    <br>
+<!DOCTYPE html>
+<html lang="en">
 
-    <label for="email"><b>Enter Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" id="email" required>
-    <br>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
-    <br>
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
 
-    <label for="psw-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
-    <hr>
-    <br>
-    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-    <button type="submit" class="registerbtn">Register</button>
-  </div>
-  <div class="container signin">
-    <p>Already have an account? <a href="#">Sign in</a>.</p>
-  </div>
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-   <h1> Thankyou, Happy Learning </h1>
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-  
-</form>
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        #message {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+
+        .password-hint {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .password-strength {
+            margin-top: 5px;
+        }
+
+        .password-strength div {
+            height: 5px;
+            border-radius: 4px;
+        }
+
+        .weak {
+            width: 33%;
+            background-color: red;
+        }
+
+        .medium {
+            width: 66%;
+            background-color: orange;
+        }
+
+        .strong {
+            width: 100%;
+            background-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Signup Form</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <div class="password-hint" id="passwordHint">
+                    Password must be at least 8 characters long, and include at
+                    least one uppercase letter, one lowercase letter, one
+                    number, and one special character.
+                </div>
+                <span id="passwordError" class="error"></span>
+                <div class="password-strength" id="passwordStrength"></div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword"
+                    name="confirmPassword" required>
+                <span id="confirmPasswordError" class="error"></span>
+            </div>
+            <button type="submit">Signup</button>
+        </form>
+        <p id="message"></p>
+    </div>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let username = document.getElementById('username').value;
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+            let confirmPassword = document.getElementById('confirmPassword').value;
+            let message = document.getElementById('message');
+            let passwordError = document.getElementById('passwordError');
+            let confirmPasswordError = document.getElementById('confirmPasswordError');
+
+            let passwordValid = validatePassword(password);
+            if (!passwordValid) {
+                passwordError.textContent = 'Password does not meet the requirements.';
+                return;
+            } else {
+                passwordError.textContent = '';
+            }
+
+            if (password !== confirmPassword) {
+                confirmPasswordError.textContent = 'Passwords do not match!';
+                return;
+            } else {
+                confirmPasswordError.textContent = '';
+            }
+
+            // Here you can add code to send the form data to the server
+
+            message.style.color = 'green';
+            message.textContent = 'Signup successful!';
+        });
+
+        document.getElementById('password').addEventListener('focus', function () {
+            document.getElementById('passwordHint').style.display = 'block';
+        });
+
+        document.getElementById('password').addEventListener('blur', function () {
+            document.getElementById('passwordHint').style.display = 'none';
+        });
+
+        document.getElementById('password').addEventListener('input', function () {
+            let password = this.value;
+            let passwordStrength = document.getElementById('passwordStrength');
+            let strength = getPasswordStrength(password);
+
+            passwordStrength.innerHTML = ''; // Clear previous strength bars
+            if (strength) {
+                let strengthBar = document.createElement('div');
+                strengthBar.className = strength;
+                passwordStrength.appendChild(strengthBar);
+            }
+        });
+
+        function validatePassword(password) {
+            let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            return regex.test(password);
+        }
+
+        function getPasswordStrength(password) {
+            if (password.length < 8) {
+                return 'weak';
+            }
+            if (password.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/)) {
+                return 'strong';
+            }
+            return 'medium';
+        }
+    </script>
+</body>
+
+</html>
