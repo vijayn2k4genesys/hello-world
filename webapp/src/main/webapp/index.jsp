@@ -109,7 +109,7 @@
         <form id="signupForm">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <input type="text" id="username1" name="username" required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
